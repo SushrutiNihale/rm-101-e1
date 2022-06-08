@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import styles from "./taskApp.module.css";
 
@@ -46,20 +46,37 @@ const TaskApp = () => {
 
   const removeTask = (id) => {
     setTasksList(tasksList.filter((task) => {
-      if (task.id !== id) {
-        return task;
-      }
+      return task.id !== id;
     }))
   }
+
+  const handleDone = (id) => {
+    // console.log(id);
+    setTasksList(tasksList.map((task) => {
+      if (task.id === id) {
+        const updatedTask = { ...task };
+        updatedTask.done = !updatedTask.done;
+        return updatedTask;
+      }
+      return task;
+    }));
+  }
+
+  // useEffect(
+  //   () => {
+  //     console.log(tasksList);
+  //   },
+  //   [tasksList]
+  // )
 
   return (
     <div data-testid="task-app" className={styles.taskApp}>
       {/* Header */}
-      <TaskHeader />
+      <TaskHeader tasksList={tasksList} />
       {/* Add Task */}
-      <AddTask />
+      <AddTask tasksList={tasksList} setTasksList={setTasksList} />
       {/* Tasks */}
-      <Tasks tasksList={tasksList} removeTask={removeTask} />
+      <Tasks tasksList={tasksList} removeTask={removeTask} handleDone={handleDone} />
     </div>
   );
 };

@@ -1,10 +1,20 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./taskHeader.module.css";
 
-const TaskHeader = () => {
+const TaskHeader = ({ tasksList }) => {
   // sample values to be replaced
-  let totalTask = 0;
-  let unCompletedTask = 0;
+  const [totalTask, setTotalTask] = useState(tasksList.length);
+  const [unCompletedTask, setUnCompletedTask] = useState(
+    tasksList.filter((task) => task.done === false).length
+  );
+
+  useEffect(
+    () => {
+      setTotalTask(tasksList.length);
+      setUnCompletedTask(tasksList.filter((task) => task.done === false).length);
+    },
+    [tasksList]
+  );
 
   // NOTE: do not delete `data-testid` key value pair
   return (

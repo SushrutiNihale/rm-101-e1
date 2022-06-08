@@ -3,7 +3,7 @@ import styles from "./tasks.module.css";
 
 import { Task } from "../Task"
 
-const Tasks = ({ tasksList, removeTask }) => {
+const Tasks = ({ tasksList, removeTask, handleDone }) => {
   // NOTE: do not delete `data-testid` key value pair
 
   return (
@@ -16,7 +16,7 @@ const Tasks = ({ tasksList, removeTask }) => {
         :
         <ul data-testid="tasks" className={styles.tasks}>
           {/* Task List */}
-          {tasksList.map((task) => <Task task={task} key={task.id} tasksList={tasksList} removeTask={removeTask} />)}
+          {tasksList.map((task) => <Task task={task} key={task.id} removeTask={removeTask} handleDone={handleDone} />)}
         </ul>
       }
     </>

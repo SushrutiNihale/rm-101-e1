@@ -3,7 +3,7 @@ import styles from "./task.module.css";
 
 import { Counter } from "../Counter";
 
-const Task = ({ task, tasksList, removeTask }) => {
+const Task = ({ task, removeTask, handleDone }) => {
   // console.log(task)
   // NOTE: do not delete `data-testid` key value pair
 
@@ -11,21 +11,27 @@ const Task = ({ task, tasksList, removeTask }) => {
 
   const handleIncrement = (id, value) => {
     console.log(id);
-    setCount((pre) => pre + value);
+    if (count === 1 && value < 0) {
+      setCount(1);
+    } else {
+      setCount((pre) => pre + value);
+    }
   }
-
-  // const handleDone = (e) => {
-  //   if (e.target.checked) {
-
-  //   }
-  // }
 
 
   return (
     <li data-testid="task" className={styles.task} >
-      <input
-        // onChange={(e) => { console.log(e.target.checked) }}
-        type="checkbox" data-testid="task-checkbox" />
+      {task.done ?
+        <input
+          type="checkbox" data-testid="task-checkbox"
+          defaultChecked="true"
+          onChange={() => handleDone(task.id)}
+        />
+        :
+        <input
+          type="checkbox" data-testid="task-checkbox"
+          onChange={() => handleDone(task.id)}
+        />}
       <div data-testid="task-text">{task.text}</div>
       {/* Counter here */}
       <Counter count={count} id={task.id} handleIncrement={handleIncrement} />
